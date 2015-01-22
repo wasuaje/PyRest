@@ -1,0 +1,2110 @@
+timestamp: 2013-02-01T15:52:20.501891
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2013-02-01T15:52:20.608700
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-02-01T15:52:20.692548
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-02-01T15:52:20.815975
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2013-02-01T15:52:20.927182
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-02-01T15:52:21.019317
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2013-02-01T16:00:51.356608
+CREATE TABLE auth_user(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    registration_key VARCHAR(255),
+    reset_password_key VARCHAR(255),
+    registration_id VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-01T16:00:51.828166
+CREATE TABLE auth_group(
+    id INT AUTO_INCREMENT NOT NULL,
+    role VARCHAR(255),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-01T16:00:51.988433
+CREATE TABLE auth_membership(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-01T16:00:52.205899
+CREATE TABLE auth_permission(
+    id INT AUTO_INCREMENT NOT NULL,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
+    name VARCHAR(255),
+    table_name VARCHAR(255),
+    record_id INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-01T16:00:52.406595
+CREATE TABLE auth_event(
+    id INT AUTO_INCREMENT NOT NULL,
+    time_stamp DATETIME,
+    client_ip VARCHAR(255),
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin VARCHAR(255),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-01T16:00:52.699359
+CREATE TABLE auth_cas(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on DATETIME,
+    service VARCHAR(255),
+    ticket VARCHAR(255),
+    renew CHAR(1),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-22T17:04:38.034590
+CREATE TABLE cf_empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(255),
+    razon_social VARCHAR(255),
+    direccion VARCHAR(255),
+    rif VARCHAR(255),
+    nit VARCHAR(255),
+    email VARCHAR(255),
+    tlf VARCHAR(255),
+    fax VARCHAR(255),
+    ruta_foto VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-25T14:13:04.411495
+CREATE TABLE in_categoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    codigo VARCHAR(255),
+    nombre VARCHAR(255),
+    show_in_menu CHAR(1),
+    ruta_foto VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-25T14:17:01.395908
+CREATE TABLE in_producto(
+    id INT AUTO_INCREMENT NOT NULL,
+    codigo VARCHAR(255),
+    nombre VARCHAR(255),
+    show_in_menu CHAR(1),
+    ruta_foto VARCHAR(255),
+    categoria_id INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-25T14:23:42.313008
+ALTER TABLE cf_empresa ADD direccion__tmp LONGTEXT;
+success!
+UPDATE cf_empresa SET direccion__tmp=direccion;
+success!
+ALTER TABLE cf_empresa DROP COLUMN direccion;
+success!
+ALTER TABLE cf_empresa ADD direccion LONGTEXT;
+success!
+UPDATE cf_empresa SET direccion=direccion__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN direccion__tmp;
+success!
+timestamp: 2013-02-28T16:52:40.482121
+CREATE TABLE cf_proveedor(
+    id INT AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(255),
+    razon_social VARCHAR(255),
+    direccion LONGTEXT,
+    rif VARCHAR(255),
+    nit VARCHAR(255),
+    email VARCHAR(255),
+    tlf VARCHAR(255),
+    fax VARCHAR(255),
+    ruta_foto VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-28T16:52:41.110216
+CREATE TABLE cf_cliente(
+    id INT AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(255),
+    razon_social VARCHAR(255),
+    direccion LONGTEXT,
+    rif VARCHAR(255),
+    nit VARCHAR(255),
+    email VARCHAR(255),
+    tlf VARCHAR(255),
+    fax VARCHAR(255),
+    ruta_foto VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-28T16:52:41.298718
+CREATE TABLE fc_orden(
+    id INT AUTO_INCREMENT NOT NULL,
+    numero VARCHAR(255),
+    fecha DATE,
+    cliente_id INT,
+    closed CHAR(1),
+    delivery CHAR(1),
+    delivered CHAR(1),
+    delivery_paid CHAR(1),
+    facturada CHAR(1),
+    num_fact VARCHAR(255),
+    fecha_fac DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-28T17:01:06.116805
+ALTER TABLE cf_cliente ADD juridico CHAR(1);
+success!
+timestamp: 2013-02-28T17:30:55.905889
+CREATE TABLE cf_mesa(
+    id INT AUTO_INCREMENT NOT NULL,
+    codigo VARCHAR(255),
+    nombre VARCHAR(255),
+    ruta_foto VARCHAR(255),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-02-28T17:30:56.108761
+ALTER TABLE fc_orden ADD mesa_id INT;
+success!
+timestamp: 2013-03-04T15:43:07.023996
+CREATE TABLE fc_orden_det(
+    id INT AUTO_INCREMENT NOT NULL,
+    fact_id INT,
+    producto_id INT,
+    cantidad INT,
+    importe FLOAT,
+    iva FLOAT,
+    imp1 FLOAT,
+    imp2 FLOAT,
+    descuento FLOAT,
+    total FLOAT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2013-03-04T16:12:25.643912
+ALTER TABLE in_producto ADD imp2 FLOAT;
+success!
+timestamp: 2013-03-04T16:12:26.433617
+ALTER TABLE in_producto ADD imp1 FLOAT;
+success!
+timestamp: 2013-03-04T16:12:26.816286
+ALTER TABLE in_producto ADD iva FLOAT;
+success!
+timestamp: 2013-03-04T16:12:27.168080
+ALTER TABLE in_producto ADD descuento FLOAT;
+success!
+timestamp: 2013-03-04T16:12:27.562486
+ALTER TABLE in_producto ADD costo FLOAT;
+success!
+timestamp: 2013-03-04T16:12:27.895407
+ALTER TABLE in_producto ADD importe FLOAT;
+success!
+timestamp: 2013-03-04T16:14:50.354857
+ALTER TABLE fc_orden_det ADD orden_id INT;
+success!
+timestamp: 2013-03-04T16:14:50.858344
+ALTER TABLE fc_orden_det DROP COLUMN fact_id;
+success!
+timestamp: 2014-03-18T11:45:33.061108
+ALTER TABLE auth_user ADD registration_id__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET registration_id__tmp=registration_id;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id;
+success!
+ALTER TABLE auth_user ADD registration_id VARCHAR(512);
+success!
+UPDATE auth_user SET registration_id=registration_id__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id__tmp;
+success!
+timestamp: 2014-03-18T11:45:41.342026
+ALTER TABLE auth_user ADD reset_password_key__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET reset_password_key__tmp=reset_password_key;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key;
+success!
+ALTER TABLE auth_user ADD reset_password_key VARCHAR(512);
+success!
+UPDATE auth_user SET reset_password_key=reset_password_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key__tmp;
+success!
+timestamp: 2014-03-18T11:45:44.512787
+ALTER TABLE auth_user ADD password__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET password__tmp=password;
+success!
+ALTER TABLE auth_user DROP COLUMN password;
+success!
+ALTER TABLE auth_user ADD password VARCHAR(512);
+success!
+UPDATE auth_user SET password=password__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN password__tmp;
+success!
+timestamp: 2014-03-18T11:45:47.767414
+ALTER TABLE auth_user ADD registration_key__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET registration_key__tmp=registration_key;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key;
+success!
+ALTER TABLE auth_user ADD registration_key VARCHAR(512);
+success!
+UPDATE auth_user SET registration_key=registration_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key__tmp;
+success!
+timestamp: 2014-03-18T11:45:51.597937
+ALTER TABLE auth_user ADD email__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET email__tmp=email;
+success!
+ALTER TABLE auth_user DROP COLUMN email;
+success!
+ALTER TABLE auth_user ADD email VARCHAR(512);
+success!
+UPDATE auth_user SET email=email__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T11:45:54.618902
+ALTER TABLE auth_group ADD role__tmp VARCHAR(512);
+success!
+UPDATE auth_group SET role__tmp=role;
+success!
+ALTER TABLE auth_group DROP COLUMN role;
+success!
+ALTER TABLE auth_group ADD role VARCHAR(512);
+success!
+UPDATE auth_group SET role=role__tmp;
+success!
+ALTER TABLE auth_group DROP COLUMN role__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:45:57.170730
+ALTER TABLE auth_permission ADD table_name__tmp VARCHAR(512);
+success!
+UPDATE auth_permission SET table_name__tmp=table_name;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name;
+success!
+ALTER TABLE auth_permission ADD table_name VARCHAR(512);
+success!
+UPDATE auth_permission SET table_name=table_name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name__tmp;
+success!
+timestamp: 2014-03-18T11:45:59.924986
+ALTER TABLE auth_permission ADD name__tmp VARCHAR(512);
+success!
+UPDATE auth_permission SET name__tmp=name;
+success!
+ALTER TABLE auth_permission DROP COLUMN name;
+success!
+ALTER TABLE auth_permission ADD name VARCHAR(512);
+success!
+UPDATE auth_permission SET name=name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN name__tmp;
+success!
+timestamp: 2014-03-18T11:46:01.516503
+ALTER TABLE auth_event ADD origin__tmp VARCHAR(512);
+success!
+UPDATE auth_event SET origin__tmp=origin;
+success!
+ALTER TABLE auth_event DROP COLUMN origin;
+success!
+ALTER TABLE auth_event ADD origin VARCHAR(512);
+success!
+UPDATE auth_event SET origin=origin__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN origin__tmp;
+success!
+timestamp: 2014-03-18T11:46:03.575728
+ALTER TABLE auth_event ADD client_ip__tmp VARCHAR(512);
+success!
+UPDATE auth_event SET client_ip__tmp=client_ip;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip;
+success!
+ALTER TABLE auth_event ADD client_ip VARCHAR(512);
+success!
+UPDATE auth_event SET client_ip=client_ip__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:46:05.443331
+ALTER TABLE auth_cas ADD service__tmp VARCHAR(512);
+success!
+UPDATE auth_cas SET service__tmp=service;
+success!
+ALTER TABLE auth_cas DROP COLUMN service;
+success!
+ALTER TABLE auth_cas ADD service VARCHAR(512);
+success!
+UPDATE auth_cas SET service=service__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN service__tmp;
+success!
+timestamp: 2014-03-18T11:46:07.895162
+ALTER TABLE auth_cas ADD ticket__tmp VARCHAR(512);
+success!
+UPDATE auth_cas SET ticket__tmp=ticket;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket;
+success!
+ALTER TABLE auth_cas ADD ticket VARCHAR(512);
+success!
+UPDATE auth_cas SET ticket=ticket__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:46:10.934624
+ALTER TABLE cf_empresa ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET fax__tmp=fax;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax;
+success!
+ALTER TABLE cf_empresa ADD fax VARCHAR(512);
+success!
+UPDATE cf_empresa SET fax=fax__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T11:46:13.947968
+ALTER TABLE cf_empresa ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_empresa ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_empresa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T11:46:16.133551
+ALTER TABLE cf_empresa ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_empresa ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_empresa SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T11:46:18.438503
+ALTER TABLE cf_empresa ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf;
+success!
+ALTER TABLE cf_empresa ADD tlf VARCHAR(512);
+success!
+UPDATE cf_empresa SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T11:46:20.388464
+ALTER TABLE cf_empresa ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET rif__tmp=rif;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif;
+success!
+ALTER TABLE cf_empresa ADD rif VARCHAR(512);
+success!
+UPDATE cf_empresa SET rif=rif__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T11:46:23.325342
+ALTER TABLE cf_empresa ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_empresa ADD nombre VARCHAR(512);
+success!
+UPDATE cf_empresa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T11:46:25.310312
+ALTER TABLE cf_empresa ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET email__tmp=email;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email;
+success!
+ALTER TABLE cf_empresa ADD email VARCHAR(512);
+success!
+UPDATE cf_empresa SET email=email__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T11:46:28.099667
+ALTER TABLE cf_empresa ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET nit__tmp=nit;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit;
+success!
+ALTER TABLE cf_empresa ADD nit VARCHAR(512);
+success!
+UPDATE cf_empresa SET nit=nit__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T11:46:30.490681
+ALTER TABLE in_categoria ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre;
+success!
+ALTER TABLE in_categoria ADD nombre VARCHAR(512);
+success!
+UPDATE in_categoria SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T11:46:33.490271
+ALTER TABLE in_categoria ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo;
+success!
+ALTER TABLE in_categoria ADD codigo VARCHAR(512);
+success!
+UPDATE in_categoria SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T11:46:35.986667
+ALTER TABLE in_categoria ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_categoria ADD ruta_foto VARCHAR(512);
+success!
+UPDATE in_categoria SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:46:38.296275
+ALTER TABLE in_producto ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_producto ADD ruta_foto VARCHAR(512);
+success!
+UPDATE in_producto SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T11:46:41.708744
+ALTER TABLE in_producto ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo;
+success!
+ALTER TABLE in_producto ADD codigo VARCHAR(512);
+success!
+UPDATE in_producto SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T11:46:44.334433
+ALTER TABLE in_producto ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre;
+success!
+ALTER TABLE in_producto ADD nombre VARCHAR(512);
+success!
+UPDATE in_producto SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:46:47.159922
+ALTER TABLE cf_proveedor ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET fax__tmp=fax;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax;
+success!
+ALTER TABLE cf_proveedor ADD fax VARCHAR(512);
+success!
+UPDATE cf_proveedor SET fax=fax__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T11:46:50.086661
+ALTER TABLE cf_proveedor ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_proveedor ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_proveedor SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T11:46:52.639201
+ALTER TABLE cf_proveedor ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_proveedor ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_proveedor SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T11:46:54.617134
+ALTER TABLE cf_proveedor ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf;
+success!
+ALTER TABLE cf_proveedor ADD tlf VARCHAR(512);
+success!
+UPDATE cf_proveedor SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T11:46:56.290212
+ALTER TABLE cf_proveedor ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET rif__tmp=rif;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif;
+success!
+ALTER TABLE cf_proveedor ADD rif VARCHAR(512);
+success!
+UPDATE cf_proveedor SET rif=rif__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T11:46:58.667403
+ALTER TABLE cf_proveedor ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre;
+success!
+ALTER TABLE cf_proveedor ADD nombre VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T11:47:00.653442
+ALTER TABLE cf_proveedor ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET email__tmp=email;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email;
+success!
+ALTER TABLE cf_proveedor ADD email VARCHAR(512);
+success!
+UPDATE cf_proveedor SET email=email__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T11:47:02.762648
+ALTER TABLE cf_proveedor ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nit__tmp=nit;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit;
+success!
+ALTER TABLE cf_proveedor ADD nit VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nit=nit__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T11:47:04.720112
+ALTER TABLE cf_cliente ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET fax__tmp=fax;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax;
+success!
+ALTER TABLE cf_cliente ADD fax VARCHAR(512);
+success!
+UPDATE cf_cliente SET fax=fax__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T11:47:06.749781
+ALTER TABLE cf_cliente ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_cliente ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_cliente SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T11:47:09.162064
+ALTER TABLE cf_cliente ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_cliente ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_cliente SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T11:47:11.209177
+ALTER TABLE cf_cliente ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf;
+success!
+ALTER TABLE cf_cliente ADD tlf VARCHAR(512);
+success!
+UPDATE cf_cliente SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T11:47:12.710441
+ALTER TABLE cf_cliente ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET rif__tmp=rif;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif;
+success!
+ALTER TABLE cf_cliente ADD rif VARCHAR(512);
+success!
+UPDATE cf_cliente SET rif=rif__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T11:47:14.134808
+ALTER TABLE cf_cliente ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre;
+success!
+ALTER TABLE cf_cliente ADD nombre VARCHAR(512);
+success!
+UPDATE cf_cliente SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T11:47:16.250523
+ALTER TABLE cf_cliente ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET email__tmp=email;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email;
+success!
+ALTER TABLE cf_cliente ADD email VARCHAR(512);
+success!
+UPDATE cf_cliente SET email=email__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T11:47:18.096501
+ALTER TABLE cf_cliente ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET nit__tmp=nit;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit;
+success!
+ALTER TABLE cf_cliente ADD nit VARCHAR(512);
+success!
+UPDATE cf_cliente SET nit=nit__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T11:47:20.727629
+ALTER TABLE cf_mesa ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_mesa ADD nombre VARCHAR(512);
+success!
+UPDATE cf_mesa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T11:47:23.325050
+ALTER TABLE cf_mesa ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET codigo__tmp=codigo;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo;
+success!
+ALTER TABLE cf_mesa ADD codigo VARCHAR(512);
+success!
+UPDATE cf_mesa SET codigo=codigo__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T11:47:25.334922
+ALTER TABLE cf_mesa ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_mesa ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_mesa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T11:47:27.386310
+ALTER TABLE fc_orden ADD numero__tmp VARCHAR(512);
+success!
+UPDATE fc_orden SET numero__tmp=numero;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero;
+success!
+ALTER TABLE fc_orden ADD numero VARCHAR(512);
+success!
+UPDATE fc_orden SET numero=numero__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero__tmp;
+success!
+timestamp: 2014-03-18T11:47:30.476324
+ALTER TABLE fc_orden ADD num_fact__tmp VARCHAR(512);
+success!
+UPDATE fc_orden SET num_fact__tmp=num_fact;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact;
+success!
+ALTER TABLE fc_orden ADD num_fact VARCHAR(512);
+success!
+UPDATE fc_orden SET num_fact=num_fact__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact__tmp;
+success!
+success!
+timestamp: 2014-03-18T11:59:32.598103
+ALTER TABLE auth_user ADD registration_id__tmp VARCHAR(255);
+success!
+UPDATE auth_user SET registration_id__tmp=registration_id;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id;
+success!
+ALTER TABLE auth_user ADD registration_id VARCHAR(255);
+success!
+UPDATE auth_user SET registration_id=registration_id__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id__tmp;
+success!
+timestamp: 2014-03-18T11:59:34.542521
+ALTER TABLE auth_user ADD reset_password_key__tmp VARCHAR(255);
+success!
+UPDATE auth_user SET reset_password_key__tmp=reset_password_key;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key;
+success!
+ALTER TABLE auth_user ADD reset_password_key VARCHAR(255);
+success!
+UPDATE auth_user SET reset_password_key=reset_password_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key__tmp;
+success!
+timestamp: 2014-03-18T11:59:36.570065
+ALTER TABLE auth_user ADD password__tmp VARCHAR(255);
+success!
+UPDATE auth_user SET password__tmp=password;
+success!
+ALTER TABLE auth_user DROP COLUMN password;
+success!
+ALTER TABLE auth_user ADD password VARCHAR(255);
+success!
+UPDATE auth_user SET password=password__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN password__tmp;
+success!
+timestamp: 2014-03-18T11:59:39.031848
+ALTER TABLE auth_user ADD registration_key__tmp VARCHAR(255);
+success!
+UPDATE auth_user SET registration_key__tmp=registration_key;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key;
+success!
+ALTER TABLE auth_user ADD registration_key VARCHAR(255);
+success!
+UPDATE auth_user SET registration_key=registration_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key__tmp;
+success!
+timestamp: 2014-03-18T11:59:41.052224
+ALTER TABLE auth_user ADD email__tmp VARCHAR(255);
+success!
+UPDATE auth_user SET email__tmp=email;
+success!
+ALTER TABLE auth_user DROP COLUMN email;
+success!
+ALTER TABLE auth_user ADD email VARCHAR(255);
+success!
+UPDATE auth_user SET email=email__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T11:59:43.722733
+ALTER TABLE auth_group ADD role__tmp VARCHAR(255);
+success!
+UPDATE auth_group SET role__tmp=role;
+success!
+ALTER TABLE auth_group DROP COLUMN role;
+success!
+ALTER TABLE auth_group ADD role VARCHAR(255);
+success!
+UPDATE auth_group SET role=role__tmp;
+success!
+ALTER TABLE auth_group DROP COLUMN role__tmp;
+success!
+timestamp: 2014-03-18T11:59:45.566776
+ALTER TABLE auth_permission ADD table_name__tmp VARCHAR(255);
+success!
+UPDATE auth_permission SET table_name__tmp=table_name;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name;
+success!
+ALTER TABLE auth_permission ADD table_name VARCHAR(255);
+success!
+UPDATE auth_permission SET table_name=table_name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name__tmp;
+success!
+timestamp: 2014-03-18T11:59:47.098663
+ALTER TABLE auth_permission ADD name__tmp VARCHAR(255);
+success!
+UPDATE auth_permission SET name__tmp=name;
+success!
+ALTER TABLE auth_permission DROP COLUMN name;
+success!
+ALTER TABLE auth_permission ADD name VARCHAR(255);
+success!
+UPDATE auth_permission SET name=name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN name__tmp;
+success!
+timestamp: 2014-03-18T11:59:48.776812
+ALTER TABLE auth_event ADD origin__tmp VARCHAR(255);
+success!
+UPDATE auth_event SET origin__tmp=origin;
+success!
+ALTER TABLE auth_event DROP COLUMN origin;
+success!
+ALTER TABLE auth_event ADD origin VARCHAR(255);
+success!
+UPDATE auth_event SET origin=origin__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN origin__tmp;
+success!
+timestamp: 2014-03-18T11:59:50.141253
+ALTER TABLE auth_event ADD client_ip__tmp VARCHAR(255);
+success!
+UPDATE auth_event SET client_ip__tmp=client_ip;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip;
+success!
+ALTER TABLE auth_event ADD client_ip VARCHAR(255);
+success!
+UPDATE auth_event SET client_ip=client_ip__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip__tmp;
+success!
+timestamp: 2014-03-18T11:59:52.166307
+ALTER TABLE auth_cas ADD service__tmp VARCHAR(255);
+success!
+UPDATE auth_cas SET service__tmp=service;
+success!
+ALTER TABLE auth_cas DROP COLUMN service;
+success!
+ALTER TABLE auth_cas ADD service VARCHAR(255);
+success!
+UPDATE auth_cas SET service=service__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN service__tmp;
+success!
+timestamp: 2014-03-18T11:59:53.796113
+ALTER TABLE auth_cas ADD ticket__tmp VARCHAR(255);
+success!
+UPDATE auth_cas SET ticket__tmp=ticket;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket;
+success!
+ALTER TABLE auth_cas ADD ticket VARCHAR(255);
+success!
+UPDATE auth_cas SET ticket=ticket__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket__tmp;
+success!
+timestamp: 2014-03-18T11:59:56.199007
+ALTER TABLE cf_empresa ADD fax__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET fax__tmp=fax;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax;
+success!
+ALTER TABLE cf_empresa ADD fax VARCHAR(255);
+success!
+UPDATE cf_empresa SET fax=fax__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T11:59:58.816440
+ALTER TABLE cf_empresa ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_empresa ADD ruta_foto VARCHAR(255);
+success!
+UPDATE cf_empresa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:00:01.781788
+ALTER TABLE cf_empresa ADD razon_social__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_empresa ADD razon_social VARCHAR(255);
+success!
+UPDATE cf_empresa SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:00:07.760224
+ALTER TABLE cf_empresa ADD tlf__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf;
+success!
+ALTER TABLE cf_empresa ADD tlf VARCHAR(255);
+success!
+UPDATE cf_empresa SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:00:11.795518
+ALTER TABLE cf_empresa ADD rif__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET rif__tmp=rif;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif;
+success!
+ALTER TABLE cf_empresa ADD rif VARCHAR(255);
+success!
+UPDATE cf_empresa SET rif=rif__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:00:15.656999
+ALTER TABLE cf_empresa ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_empresa ADD nombre VARCHAR(255);
+success!
+UPDATE cf_empresa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:00:20.972613
+ALTER TABLE cf_empresa ADD email__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET email__tmp=email;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email;
+success!
+ALTER TABLE cf_empresa ADD email VARCHAR(255);
+success!
+UPDATE cf_empresa SET email=email__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:00:25.545521
+ALTER TABLE cf_empresa ADD nit__tmp VARCHAR(255);
+success!
+UPDATE cf_empresa SET nit__tmp=nit;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit;
+success!
+ALTER TABLE cf_empresa ADD nit VARCHAR(255);
+success!
+UPDATE cf_empresa SET nit=nit__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:00:28.194301
+ALTER TABLE in_categoria ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE in_categoria SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre;
+success!
+ALTER TABLE in_categoria ADD nombre VARCHAR(255);
+success!
+UPDATE in_categoria SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:00:30.988472
+ALTER TABLE in_categoria ADD codigo__tmp VARCHAR(255);
+success!
+UPDATE in_categoria SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo;
+success!
+ALTER TABLE in_categoria ADD codigo VARCHAR(255);
+success!
+UPDATE in_categoria SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:00:33.566699
+ALTER TABLE in_categoria ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE in_categoria SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_categoria ADD ruta_foto VARCHAR(255);
+success!
+UPDATE in_categoria SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:00:36.031913
+ALTER TABLE in_producto ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE in_producto SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_producto ADD ruta_foto VARCHAR(255);
+success!
+UPDATE in_producto SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:00:39.674875
+ALTER TABLE in_producto ADD codigo__tmp VARCHAR(255);
+success!
+UPDATE in_producto SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo;
+success!
+ALTER TABLE in_producto ADD codigo VARCHAR(255);
+success!
+UPDATE in_producto SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:00:42.577531
+ALTER TABLE in_producto ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE in_producto SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre;
+success!
+ALTER TABLE in_producto ADD nombre VARCHAR(255);
+success!
+UPDATE in_producto SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:00:44.943978
+ALTER TABLE cf_proveedor ADD fax__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET fax__tmp=fax;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax;
+success!
+ALTER TABLE cf_proveedor ADD fax VARCHAR(255);
+success!
+UPDATE cf_proveedor SET fax=fax__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T12:00:46.548023
+ALTER TABLE cf_proveedor ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_proveedor ADD ruta_foto VARCHAR(255);
+success!
+UPDATE cf_proveedor SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:00:48.483604
+ALTER TABLE cf_proveedor ADD razon_social__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_proveedor ADD razon_social VARCHAR(255);
+success!
+UPDATE cf_proveedor SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:00:50.350733
+ALTER TABLE cf_proveedor ADD tlf__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf;
+success!
+ALTER TABLE cf_proveedor ADD tlf VARCHAR(255);
+success!
+UPDATE cf_proveedor SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:00:51.860296
+ALTER TABLE cf_proveedor ADD rif__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET rif__tmp=rif;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif;
+success!
+ALTER TABLE cf_proveedor ADD rif VARCHAR(255);
+success!
+UPDATE cf_proveedor SET rif=rif__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:00:54.448400
+ALTER TABLE cf_proveedor ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre;
+success!
+ALTER TABLE cf_proveedor ADD nombre VARCHAR(255);
+success!
+UPDATE cf_proveedor SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:00:56.800226
+ALTER TABLE cf_proveedor ADD email__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET email__tmp=email;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email;
+success!
+ALTER TABLE cf_proveedor ADD email VARCHAR(255);
+success!
+UPDATE cf_proveedor SET email=email__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:00:59.079057
+ALTER TABLE cf_proveedor ADD nit__tmp VARCHAR(255);
+success!
+UPDATE cf_proveedor SET nit__tmp=nit;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit;
+success!
+ALTER TABLE cf_proveedor ADD nit VARCHAR(255);
+success!
+UPDATE cf_proveedor SET nit=nit__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:01:01.782475
+ALTER TABLE cf_cliente ADD fax__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET fax__tmp=fax;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax;
+success!
+ALTER TABLE cf_cliente ADD fax VARCHAR(255);
+success!
+UPDATE cf_cliente SET fax=fax__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T12:01:04.009498
+ALTER TABLE cf_cliente ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_cliente ADD ruta_foto VARCHAR(255);
+success!
+UPDATE cf_cliente SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:01:06.776598
+ALTER TABLE cf_cliente ADD razon_social__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_cliente ADD razon_social VARCHAR(255);
+success!
+UPDATE cf_cliente SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:01:08.923455
+ALTER TABLE cf_cliente ADD tlf__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf;
+success!
+ALTER TABLE cf_cliente ADD tlf VARCHAR(255);
+success!
+UPDATE cf_cliente SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:01:10.940349
+ALTER TABLE cf_cliente ADD rif__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET rif__tmp=rif;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif;
+success!
+ALTER TABLE cf_cliente ADD rif VARCHAR(255);
+success!
+UPDATE cf_cliente SET rif=rif__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:01:13.684873
+ALTER TABLE cf_cliente ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre;
+success!
+ALTER TABLE cf_cliente ADD nombre VARCHAR(255);
+success!
+UPDATE cf_cliente SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:01:16.595336
+ALTER TABLE cf_cliente ADD email__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET email__tmp=email;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email;
+success!
+ALTER TABLE cf_cliente ADD email VARCHAR(255);
+success!
+UPDATE cf_cliente SET email=email__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:01:18.672915
+ALTER TABLE cf_cliente ADD nit__tmp VARCHAR(255);
+success!
+UPDATE cf_cliente SET nit__tmp=nit;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit;
+success!
+ALTER TABLE cf_cliente ADD nit VARCHAR(255);
+success!
+UPDATE cf_cliente SET nit=nit__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:01:20.424724
+ALTER TABLE cf_mesa ADD nombre__tmp VARCHAR(255);
+success!
+UPDATE cf_mesa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_mesa ADD nombre VARCHAR(255);
+success!
+UPDATE cf_mesa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:01:22.511008
+ALTER TABLE cf_mesa ADD codigo__tmp VARCHAR(255);
+success!
+UPDATE cf_mesa SET codigo__tmp=codigo;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo;
+success!
+ALTER TABLE cf_mesa ADD codigo VARCHAR(255);
+success!
+UPDATE cf_mesa SET codigo=codigo__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:01:24.882788
+ALTER TABLE cf_mesa ADD ruta_foto__tmp VARCHAR(255);
+success!
+UPDATE cf_mesa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_mesa ADD ruta_foto VARCHAR(255);
+success!
+UPDATE cf_mesa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:01:28.371708
+ALTER TABLE fc_orden ADD numero__tmp VARCHAR(255);
+success!
+UPDATE fc_orden SET numero__tmp=numero;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero;
+success!
+ALTER TABLE fc_orden ADD numero VARCHAR(255);
+success!
+UPDATE fc_orden SET numero=numero__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero__tmp;
+success!
+timestamp: 2014-03-18T12:01:31.327707
+ALTER TABLE fc_orden ADD num_fact__tmp VARCHAR(255);
+success!
+UPDATE fc_orden SET num_fact__tmp=num_fact;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact;
+success!
+ALTER TABLE fc_orden ADD num_fact VARCHAR(255);
+success!
+UPDATE fc_orden SET num_fact=num_fact__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact__tmp;
+success!
+timestamp: 2014-03-18T12:06:57.541079
+ALTER TABLE auth_user ADD registration_id__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET registration_id__tmp=registration_id;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id;
+success!
+ALTER TABLE auth_user ADD registration_id VARCHAR(512);
+success!
+UPDATE auth_user SET registration_id=registration_id__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_id__tmp;
+success!
+timestamp: 2014-03-18T12:06:59.501491
+ALTER TABLE auth_user ADD reset_password_key__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET reset_password_key__tmp=reset_password_key;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key;
+success!
+ALTER TABLE auth_user ADD reset_password_key VARCHAR(512);
+success!
+UPDATE auth_user SET reset_password_key=reset_password_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN reset_password_key__tmp;
+success!
+timestamp: 2014-03-18T12:07:01.468405
+ALTER TABLE auth_user ADD password__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET password__tmp=password;
+success!
+ALTER TABLE auth_user DROP COLUMN password;
+success!
+ALTER TABLE auth_user ADD password VARCHAR(512);
+success!
+UPDATE auth_user SET password=password__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN password__tmp;
+success!
+timestamp: 2014-03-18T12:07:03.510824
+ALTER TABLE auth_user ADD registration_key__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET registration_key__tmp=registration_key;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key;
+success!
+ALTER TABLE auth_user ADD registration_key VARCHAR(512);
+success!
+UPDATE auth_user SET registration_key=registration_key__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN registration_key__tmp;
+success!
+timestamp: 2014-03-18T12:07:05.696807
+ALTER TABLE auth_user ADD email__tmp VARCHAR(512);
+success!
+UPDATE auth_user SET email__tmp=email;
+success!
+ALTER TABLE auth_user DROP COLUMN email;
+success!
+ALTER TABLE auth_user ADD email VARCHAR(512);
+success!
+UPDATE auth_user SET email=email__tmp;
+success!
+ALTER TABLE auth_user DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:07:08.298840
+ALTER TABLE auth_group ADD role__tmp VARCHAR(512);
+success!
+UPDATE auth_group SET role__tmp=role;
+success!
+ALTER TABLE auth_group DROP COLUMN role;
+success!
+ALTER TABLE auth_group ADD role VARCHAR(512);
+success!
+UPDATE auth_group SET role=role__tmp;
+success!
+ALTER TABLE auth_group DROP COLUMN role__tmp;
+success!
+success!
+timestamp: 2014-03-18T12:07:10.008416
+ALTER TABLE auth_permission ADD table_name__tmp VARCHAR(512);
+success!
+UPDATE auth_permission SET table_name__tmp=table_name;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name;
+success!
+ALTER TABLE auth_permission ADD table_name VARCHAR(512);
+success!
+UPDATE auth_permission SET table_name=table_name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN table_name__tmp;
+success!
+timestamp: 2014-03-18T12:07:11.517830
+ALTER TABLE auth_permission ADD name__tmp VARCHAR(512);
+success!
+UPDATE auth_permission SET name__tmp=name;
+success!
+ALTER TABLE auth_permission DROP COLUMN name;
+success!
+ALTER TABLE auth_permission ADD name VARCHAR(512);
+success!
+UPDATE auth_permission SET name=name__tmp;
+success!
+ALTER TABLE auth_permission DROP COLUMN name__tmp;
+success!
+timestamp: 2014-03-18T12:07:13.810433
+ALTER TABLE auth_event ADD origin__tmp VARCHAR(512);
+success!
+UPDATE auth_event SET origin__tmp=origin;
+success!
+ALTER TABLE auth_event DROP COLUMN origin;
+success!
+ALTER TABLE auth_event ADD origin VARCHAR(512);
+success!
+UPDATE auth_event SET origin=origin__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN origin__tmp;
+success!
+timestamp: 2014-03-18T12:07:15.260926
+ALTER TABLE auth_event ADD client_ip__tmp VARCHAR(512);
+success!
+UPDATE auth_event SET client_ip__tmp=client_ip;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip;
+success!
+ALTER TABLE auth_event ADD client_ip VARCHAR(512);
+success!
+UPDATE auth_event SET client_ip=client_ip__tmp;
+success!
+ALTER TABLE auth_event DROP COLUMN client_ip__tmp;
+success!
+success!
+timestamp: 2014-03-18T12:07:17.333739
+ALTER TABLE auth_cas ADD service__tmp VARCHAR(512);
+success!
+UPDATE auth_cas SET service__tmp=service;
+success!
+ALTER TABLE auth_cas DROP COLUMN service;
+success!
+ALTER TABLE auth_cas ADD service VARCHAR(512);
+success!
+UPDATE auth_cas SET service=service__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN service__tmp;
+success!
+timestamp: 2014-03-18T12:07:19.089960
+ALTER TABLE auth_cas ADD ticket__tmp VARCHAR(512);
+success!
+UPDATE auth_cas SET ticket__tmp=ticket;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket;
+success!
+ALTER TABLE auth_cas ADD ticket VARCHAR(512);
+success!
+UPDATE auth_cas SET ticket=ticket__tmp;
+success!
+ALTER TABLE auth_cas DROP COLUMN ticket__tmp;
+success!
+success!
+timestamp: 2014-03-18T12:07:21.206684
+ALTER TABLE cf_empresa ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET fax__tmp=fax;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax;
+success!
+ALTER TABLE cf_empresa ADD fax VARCHAR(512);
+success!
+UPDATE cf_empresa SET fax=fax__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T12:07:23.670325
+ALTER TABLE cf_empresa ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_empresa ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_empresa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:07:25.545012
+ALTER TABLE cf_empresa ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_empresa ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_empresa SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:07:27.908160
+ALTER TABLE cf_empresa ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf;
+success!
+ALTER TABLE cf_empresa ADD tlf VARCHAR(512);
+success!
+UPDATE cf_empresa SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:07:30.536642
+ALTER TABLE cf_empresa ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET rif__tmp=rif;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif;
+success!
+ALTER TABLE cf_empresa ADD rif VARCHAR(512);
+success!
+UPDATE cf_empresa SET rif=rif__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:07:33.531160
+ALTER TABLE cf_empresa ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_empresa ADD nombre VARCHAR(512);
+success!
+UPDATE cf_empresa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:07:35.575519
+ALTER TABLE cf_empresa ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET email__tmp=email;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email;
+success!
+ALTER TABLE cf_empresa ADD email VARCHAR(512);
+success!
+UPDATE cf_empresa SET email=email__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:07:37.595006
+ALTER TABLE cf_empresa ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_empresa SET nit__tmp=nit;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit;
+success!
+ALTER TABLE cf_empresa ADD nit VARCHAR(512);
+success!
+UPDATE cf_empresa SET nit=nit__tmp;
+success!
+ALTER TABLE cf_empresa DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:07:40.434290
+ALTER TABLE in_categoria ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre;
+success!
+ALTER TABLE in_categoria ADD nombre VARCHAR(512);
+success!
+UPDATE in_categoria SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:07:42.950895
+ALTER TABLE in_categoria ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo;
+success!
+ALTER TABLE in_categoria ADD codigo VARCHAR(512);
+success!
+UPDATE in_categoria SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:07:45.458459
+ALTER TABLE in_categoria ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE in_categoria SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_categoria ADD ruta_foto VARCHAR(512);
+success!
+UPDATE in_categoria SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_categoria DROP COLUMN ruta_foto__tmp;
+success!
+success!
+timestamp: 2014-03-18T12:07:47.527730
+ALTER TABLE in_producto ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto;
+success!
+ALTER TABLE in_producto ADD ruta_foto VARCHAR(512);
+success!
+UPDATE in_producto SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:07:49.611663
+ALTER TABLE in_producto ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET codigo__tmp=codigo;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo;
+success!
+ALTER TABLE in_producto ADD codigo VARCHAR(512);
+success!
+UPDATE in_producto SET codigo=codigo__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:07:51.856385
+ALTER TABLE in_producto ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE in_producto SET nombre__tmp=nombre;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre;
+success!
+ALTER TABLE in_producto ADD nombre VARCHAR(512);
+success!
+UPDATE in_producto SET nombre=nombre__tmp;
+success!
+ALTER TABLE in_producto DROP COLUMN nombre__tmp;
+success!
+success!
+timestamp: 2014-03-18T12:07:55.020852
+ALTER TABLE cf_proveedor ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET fax__tmp=fax;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax;
+success!
+ALTER TABLE cf_proveedor ADD fax VARCHAR(512);
+success!
+UPDATE cf_proveedor SET fax=fax__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T12:07:56.628631
+ALTER TABLE cf_proveedor ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_proveedor ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_proveedor SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:07:59.272409
+ALTER TABLE cf_proveedor ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_proveedor ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_proveedor SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:08:01.192194
+ALTER TABLE cf_proveedor ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf;
+success!
+ALTER TABLE cf_proveedor ADD tlf VARCHAR(512);
+success!
+UPDATE cf_proveedor SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:08:02.900562
+ALTER TABLE cf_proveedor ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET rif__tmp=rif;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif;
+success!
+ALTER TABLE cf_proveedor ADD rif VARCHAR(512);
+success!
+UPDATE cf_proveedor SET rif=rif__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:08:04.493460
+ALTER TABLE cf_proveedor ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre;
+success!
+ALTER TABLE cf_proveedor ADD nombre VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:08:07.303185
+ALTER TABLE cf_proveedor ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET email__tmp=email;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email;
+success!
+ALTER TABLE cf_proveedor ADD email VARCHAR(512);
+success!
+UPDATE cf_proveedor SET email=email__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:08:08.999118
+ALTER TABLE cf_proveedor ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nit__tmp=nit;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit;
+success!
+ALTER TABLE cf_proveedor ADD nit VARCHAR(512);
+success!
+UPDATE cf_proveedor SET nit=nit__tmp;
+success!
+ALTER TABLE cf_proveedor DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:08:10.752347
+ALTER TABLE cf_cliente ADD fax__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET fax__tmp=fax;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax;
+success!
+ALTER TABLE cf_cliente ADD fax VARCHAR(512);
+success!
+UPDATE cf_cliente SET fax=fax__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN fax__tmp;
+success!
+timestamp: 2014-03-18T12:08:12.543336
+ALTER TABLE cf_cliente ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_cliente ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_cliente SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:08:13.975553
+ALTER TABLE cf_cliente ADD razon_social__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET razon_social__tmp=razon_social;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social;
+success!
+ALTER TABLE cf_cliente ADD razon_social VARCHAR(512);
+success!
+UPDATE cf_cliente SET razon_social=razon_social__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN razon_social__tmp;
+success!
+timestamp: 2014-03-18T12:08:15.830804
+ALTER TABLE cf_cliente ADD tlf__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET tlf__tmp=tlf;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf;
+success!
+ALTER TABLE cf_cliente ADD tlf VARCHAR(512);
+success!
+UPDATE cf_cliente SET tlf=tlf__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN tlf__tmp;
+success!
+timestamp: 2014-03-18T12:08:18.265270
+ALTER TABLE cf_cliente ADD rif__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET rif__tmp=rif;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif;
+success!
+ALTER TABLE cf_cliente ADD rif VARCHAR(512);
+success!
+UPDATE cf_cliente SET rif=rif__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN rif__tmp;
+success!
+timestamp: 2014-03-18T12:08:20.191688
+ALTER TABLE cf_cliente ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre;
+success!
+ALTER TABLE cf_cliente ADD nombre VARCHAR(512);
+success!
+UPDATE cf_cliente SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:08:21.893152
+ALTER TABLE cf_cliente ADD email__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET email__tmp=email;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email;
+success!
+ALTER TABLE cf_cliente ADD email VARCHAR(512);
+success!
+UPDATE cf_cliente SET email=email__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN email__tmp;
+success!
+timestamp: 2014-03-18T12:08:24.020471
+ALTER TABLE cf_cliente ADD nit__tmp VARCHAR(512);
+success!
+UPDATE cf_cliente SET nit__tmp=nit;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit;
+success!
+ALTER TABLE cf_cliente ADD nit VARCHAR(512);
+success!
+UPDATE cf_cliente SET nit=nit__tmp;
+success!
+ALTER TABLE cf_cliente DROP COLUMN nit__tmp;
+success!
+timestamp: 2014-03-18T12:08:26.055249
+ALTER TABLE cf_mesa ADD nombre__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET nombre__tmp=nombre;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre;
+success!
+ALTER TABLE cf_mesa ADD nombre VARCHAR(512);
+success!
+UPDATE cf_mesa SET nombre=nombre__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN nombre__tmp;
+success!
+timestamp: 2014-03-18T12:08:28.415780
+ALTER TABLE cf_mesa ADD codigo__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET codigo__tmp=codigo;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo;
+success!
+ALTER TABLE cf_mesa ADD codigo VARCHAR(512);
+success!
+UPDATE cf_mesa SET codigo=codigo__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN codigo__tmp;
+success!
+timestamp: 2014-03-18T12:08:31.179854
+ALTER TABLE cf_mesa ADD ruta_foto__tmp VARCHAR(512);
+success!
+UPDATE cf_mesa SET ruta_foto__tmp=ruta_foto;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto;
+success!
+ALTER TABLE cf_mesa ADD ruta_foto VARCHAR(512);
+success!
+UPDATE cf_mesa SET ruta_foto=ruta_foto__tmp;
+success!
+ALTER TABLE cf_mesa DROP COLUMN ruta_foto__tmp;
+success!
+timestamp: 2014-03-18T12:08:34.622772
+ALTER TABLE fc_orden ADD numero__tmp VARCHAR(512);
+success!
+UPDATE fc_orden SET numero__tmp=numero;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero;
+success!
+ALTER TABLE fc_orden ADD numero VARCHAR(512);
+success!
+UPDATE fc_orden SET numero=numero__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN numero__tmp;
+success!
+timestamp: 2014-03-18T12:08:37.070267
+ALTER TABLE fc_orden ADD num_fact__tmp VARCHAR(512);
+success!
+UPDATE fc_orden SET num_fact__tmp=num_fact;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact;
+success!
+ALTER TABLE fc_orden ADD num_fact VARCHAR(512);
+success!
+UPDATE fc_orden SET num_fact=num_fact__tmp;
+success!
+ALTER TABLE fc_orden DROP COLUMN num_fact__tmp;
+success!
+success!
