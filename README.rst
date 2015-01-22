@@ -1,5 +1,5 @@
 =======
-Pycitas
+PyRest
 =======
 
 .. image:: inicio.png
