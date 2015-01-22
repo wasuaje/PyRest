@@ -25,7 +25,7 @@ Instalacion:
 
 ::
 
- git clone https://github.com/wasuaje/pySalon.git
+ git clone https://github.com/wasuaje/PyRest.git
 
 
 Navegacion por el sistema:
